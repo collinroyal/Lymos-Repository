@@ -5,7 +5,7 @@ import Icon from "react-native-vector-icons/AntDesign";
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 
-export default function ConductCalibration({navigation}){
+export default function ConductCalibration({navigation, GlobalState}){
     const [text, onChangeSampleConc] = React.useState("Enter Sample Concentration...")
     return (
         <View style= {styles.screen}>

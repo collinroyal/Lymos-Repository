@@ -4,11 +4,13 @@ import { StyleSheet, View, Text, TextInput, TouchableOpacity, FlatList } from 'r
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 
-export default function CreateCalibration({navigation}){
-    const [text, onChangeCalibrationName] = React.useState("Enter Calibration Name..."); // may need to consider global state usage
-    const [number, onChangeNumSamples] = React.useState("Enter Num Samples");
+export default function CreateCalibration({navigation, GlobalState}){
+    const [calibrationName, onChangeCalibrationName] = React.useState("Enter Calibration Name..."); // may need to consider global state usage
+    const [numSamples, onChangeNumSamples] = React.useState("Enter Num Samples");
 
     const StartCalibration = () => {
+        console.log(calibrationName)
+        console.log(numSamples);
         navigation.navigate("ConductCalibration");
     }
 
@@ -18,13 +20,13 @@ export default function CreateCalibration({navigation}){
             <View style={styles.body}>
                 <TextInput
                     style={styles.input}
-                    onChangeText ={(text) => onChangeCalibrationName(text)}
-                    value = {text}
+                    onChangeText ={(calibrationName) => onChangeCalibrationName(calibrationName)}
+                    value = {calibrationName}
                 />
                 <TextInput
                     style={styles.input}
                     onChangeText ={onChangeNumSamples}
-                    value = {number}
+                    value = {numSamples}
                     keyboardType='numeric'
                 />
                 <TouchableOpacity style= {styles.button} onPress= {() => StartCalibration()}>

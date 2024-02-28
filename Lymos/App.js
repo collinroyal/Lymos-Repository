@@ -13,32 +13,41 @@ import ViewHistory from "./src/screens/ViewHistory";
 
 const Stack = createNativeStackNavigator()
 export default function App() {
+
+  //global state management
+
+  const [CalibrationCurve, setCalibrationCurve] = useState(null);
+
+  const GlobalState = {
+    CalibrationCurve, setCalibrationCurve
+  }
+
   return (
     <NavigationContainer>
       <Stack.Navigator>
 
         <Stack.Screen name = "Home" options = {{headerShown: false}}>
-          {props => <Home navigation ={props.navigation} />}
+          {props => <Home navigation ={props.navigation} GlobalState={GlobalState} />}
         </Stack.Screen>
 
         <Stack.Screen name = "ConductAnalysis" options = {{headerShown: false}}>
-          {props => <ConductAnalysis navigation ={props.navigation}/>}
+          {props => <ConductAnalysis navigation ={props.navigation} GlobalState={GlobalState}/>}
         </Stack.Screen>
 
         <Stack.Screen name = "ConductCalibration" options = {{headerShown: false}}>
-          {props => <ConductCalibration navigation ={props.navigation}/>}
+          {props => <ConductCalibration navigation ={props.navigation} GlobalState={GlobalState}/>}
         </Stack.Screen>
 
         <Stack.Screen name = "CreateCalibration" options = {{headerShown: false}}>
-          {props => <CreateCalibration navigation ={props.navigation}/>}
+          {props => <CreateCalibration navigation ={props.navigation} GlobalState={GlobalState}/>}
         </Stack.Screen>
 
         <Stack.Screen name = "NewResults" options = {{headerShown: false}}>
-          {props => <NewResults navigation ={props.navigation}/>}
+          {props => <NewResults navigation ={props.navigation} GlobalState={GlobalState}/>}
         </Stack.Screen>
 
         <Stack.Screen name = "ViewHistory" options = {{headerShown: true}}>
-          {props => <ViewHistory navigation ={props.navigation}/>}
+          {props => <ViewHistory navigation ={props.navigation} GlobalState={GlobalState}/>}
         </Stack.Screen>
       </Stack.Navigator>
     </NavigationContainer>

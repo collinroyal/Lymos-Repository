@@ -4,7 +4,10 @@ import { StyleSheet, View, Text, TextInput, TouchableOpacity, FlatList } from 'r
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 
-export default function Home({navigation}) {
+export default function Home({navigation,GlobalState}) {
+    const {CalibrationCurve, setCalibrationCurve} = GlobalState;
+    
+
     
     const NavCalibration = () => {
         navigation.navigate("CreateCalibration");
