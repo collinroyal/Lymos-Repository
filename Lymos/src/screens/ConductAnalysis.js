@@ -10,7 +10,7 @@ export default function ConductAnalysis({navigation}){
     //const [number, onChangeNumSamples] = React.useState("Enter Num Samples");
 
     const ShowResults = () => {
-        navigation.navigation("NewResults");
+        navigation.navigate("NewResults");
     }
 
     return(
@@ -23,7 +23,7 @@ export default function ConductAnalysis({navigation}){
                     value = {text}
                 />
                 <TouchableOpacity style= {styles.button} onPress= {console.log("take a pic")}>
-                    <Icon name = "camera" size = {30}/>
+                    <Icon name = "camera" size = {30} style= {styles.icon}/>
                     <Text style= {styles.buttonText}> Capture Sample </Text>
                 </TouchableOpacity>
                 <TouchableOpacity style= {styles.button} onPress= {() => ShowResults()}>
@@ -52,7 +52,7 @@ const styles = StyleSheet.create({
         flex:8,
         width: "100%",
         backgroundColor: "white",
-        justifyContent: "center",
+        alignItems: "center"
     },
     task:{
         padding: 10,
@@ -107,5 +107,8 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.23,
         shadowRadius: 2.62,
         elevation: 4,
+    },
+    icon: {
+        color: "white"
     }
 })

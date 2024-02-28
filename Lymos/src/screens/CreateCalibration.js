@@ -9,7 +9,7 @@ export default function CreateCalibration({navigation}){
     const [number, onChangeNumSamples] = React.useState("Enter Num Samples");
 
     const StartCalibration = () => {
-        navigation.navigation("ConductCalibration");
+        navigation.navigate("ConductCalibration");
     }
 
     return(

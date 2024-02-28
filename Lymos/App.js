@@ -18,27 +18,27 @@ export default function App() {
       <Stack.Navigator>
 
         <Stack.Screen name = "Home" options = {{headerShown: false}}>
-          {props => <Home navigation ={{...props}} />}
+          {props => <Home navigation ={props.navigation} />}
         </Stack.Screen>
 
         <Stack.Screen name = "ConductAnalysis" options = {{headerShown: false}}>
-          {props => <ConductAnalysis navigation ={{...props}}/>}
+          {props => <ConductAnalysis navigation ={props.navigation}/>}
         </Stack.Screen>
 
         <Stack.Screen name = "ConductCalibration" options = {{headerShown: false}}>
-          {props => <ConductCalibration navigation ={{...props}}/>}
+          {props => <ConductCalibration navigation ={props.navigation}/>}
         </Stack.Screen>
 
         <Stack.Screen name = "CreateCalibration" options = {{headerShown: false}}>
-          {props => <CreateCalibration navigation ={{...props}}/>}
+          {props => <CreateCalibration navigation ={props.navigation}/>}
         </Stack.Screen>
 
         <Stack.Screen name = "NewResults" options = {{headerShown: false}}>
-          {props => <NewResults navigation ={{...props}}/>}
+          {props => <NewResults navigation ={props.navigation}/>}
         </Stack.Screen>
 
         <Stack.Screen name = "ViewHistory" options = {{headerShown: true}}>
-          {props => <ViewHistory navigation = {{...props}}/>}
+          {props => <ViewHistory navigation ={props.navigation}/>}
         </Stack.Screen>
       </Stack.Navigator>
     </NavigationContainer>

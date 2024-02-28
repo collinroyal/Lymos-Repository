@@ -8,18 +8,17 @@ import Footer from '../components/Footer';
 export default function ConductCalibration({navigation}){
     const [text, onChangeSampleConc] = React.useState("Enter Sample Concentration...")
     return (
-        <View style= {StyleSheet.screen}>
+        <View style= {styles.screen}>
             <Header/>
-            <View style= {StyleSheet.body}>
+            <View style= {styles.body}>
                 <TextInput
                     style={styles.input}
                     onChangeText ={(text) => onChangeSampleConc(text)}
                     value = {text}
                 />
-                <Icon name = "camera" size = {100}/>
+                <Icon name = "camera" size = {100} style = {styles.icon}/>
                 <Text> Repeat and store IMG and conc vals for each sample</Text>
             </View>
-
             <Footer navigation = {navigation}/>
 
         </View>
@@ -42,31 +41,16 @@ const styles = StyleSheet.create({
         flex:8,
         width: "100%",
         backgroundColor: "white",
-        justifyContent: "center",
+        alignItems: "center"
     },
-    task:{
-        padding: 10,
-        width: "95%",
-        margin: 10,
-        backgroundColor: "dodgerblue",
-        borderRadius: 12,
-        shadowColor: "#000",
-        shadowOffset: {
-            width: 0,
-            height: 2,
-        },
-        shadowOpacity: 0.23,
-        shadowRadius: 2.62,
-        elevation: 4,
-    },
-
     input:{
-        padding: 20,
+        padding: 10,
         paddingBottom: 10,
         paddingTop: 10,
         width: "95%",
         margin: 10,
-        marginTop: 30,
+        marginTop: 10,
+        marginBottom: 20,
         backgroundColor: "white",
         borderRadius: 12,
         shadowColor: "#000",
@@ -77,10 +61,6 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.23,
         shadowRadius: 2.62,
         elevation: 4,
-    },
-    buttonText:{
-        color: "white",
-        fontWeight: "900",
     },
     button:{
         alignItems: "center",
@@ -97,5 +77,10 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.23,
         shadowRadius: 2.62,
         elevation: 4,
+    },
+    icon: {
+        alignItems: "center",
+        justifyContent: "center",
+        padding: 100
     }
 })

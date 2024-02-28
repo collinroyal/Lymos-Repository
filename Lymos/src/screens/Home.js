@@ -21,7 +21,7 @@ export default function Home({navigation}) {
 
 
     return (
-        <View syle= {styles.screen}>
+        <View style= {styles.screen}>
             <Header/>
             <View style= {styles.body}>
                 <TouchableOpacity style= {styles.button} onPress = {() => NavCalibration()}>
@@ -58,7 +58,7 @@ const styles = StyleSheet.create({
         backgroundColor: "white"
     },
     body: {
-        flex:1,
+        flex:8,
         width: "100%",
         backgroundColor: "white",
         justifyContent: "center",
@@ -88,7 +88,8 @@ const styles = StyleSheet.create({
     },
     button:{
         alignItems: "center",
-        padding: 10,
+        justifyContent: "center",
+        padding: 20,
         width: "95%",
         margin: 10,
         backgroundColor: "black",
