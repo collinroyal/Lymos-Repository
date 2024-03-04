@@ -13,32 +13,45 @@ import ViewHistory from "./src/screens/ViewHistory";
 
 const Stack = createNativeStackNavigator()
 export default function App() {
+
+  //global state management
+
+  const [calibrationCurve, setCalibrationCurve] = useState(null); // global state var to hold calibration curve data
+  const [calibrationName, setCalibrationName] = React.useState(""); // Global state var to hold calibration curve name
+  const [numSamples, setNumSamples] = React.useState(""); // global state var to hold num samples for calibration curve
+
+  const GlobalState = {
+    calibrationCurve, setCalibrationCurve,
+    calibrationName, setCalibrationName,
+    numSamples, setNumSamples,
+  }
+
   return (
     <NavigationContainer>
       <Stack.Navigator>
 
-        <Stack.Screen name = "Home" options = {{headerShown: false}}>
-          {props => <Home navigation ={props.navigation} />}
+        <Stack.Screen name = "Home" options = {{headerShown: true}}>
+          {props => <Home navigation ={props.navigation} GlobalState={GlobalState} />}
         </Stack.Screen>
 
-        <Stack.Screen name = "ConductAnalysis" options = {{headerShown: false}}>
-          {props => <ConductAnalysis navigation ={props.navigation}/>}
+        <Stack.Screen name = "Conduct Analysis" options = {{headerShown: true}}>
+          {props => <ConductAnalysis navigation ={props.navigation} GlobalState={GlobalState}/>}
         </Stack.Screen>
 
-        <Stack.Screen name = "ConductCalibration" options = {{headerShown: false}}>
-          {props => <ConductCalibration navigation ={props.navigation}/>}
+        <Stack.Screen name = "Conduct Calibration" options = {{headerShown: true}}>
+          {props => <ConductCalibration navigation ={props.navigation} GlobalState={GlobalState}/>}
         </Stack.Screen>
 
-        <Stack.Screen name = "CreateCalibration" options = {{headerShown: false}}>
-          {props => <CreateCalibration navigation ={props.navigation}/>}
+        <Stack.Screen name = "Create Calibration" options = {{headerShown: true}}>
+          {props => <CreateCalibration navigation ={props.navigation} GlobalState={GlobalState}/>}
         </Stack.Screen>
 
-        <Stack.Screen name = "NewResults" options = {{headerShown: false}}>
-          {props => <NewResults navigation ={props.navigation}/>}
+        <Stack.Screen name = "New Results" options = {{headerShown: true}}>
+          {props => <NewResults navigation ={props.navigation} GlobalState={GlobalState}/>}
         </Stack.Screen>
 
-        <Stack.Screen name = "ViewHistory" options = {{headerShown: true}}>
-          {props => <ViewHistory navigation ={props.navigation}/>}
+        <Stack.Screen name = "View History" options = {{headerShown: true}}>
+          {props => <ViewHistory navigation ={props.navigation} GlobalState={GlobalState}/>}
         </Stack.Screen>
       </Stack.Navigator>
     </NavigationContainer>

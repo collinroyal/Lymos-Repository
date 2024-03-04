@@ -4,31 +4,39 @@ import { StyleSheet, View, Text, TextInput, TouchableOpacity, FlatList } from 'r
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 
-export default function CreateCalibration({navigation}){
-    const [text, onChangeCalibrationName] = React.useState("Enter Calibration Name..."); // may need to consider global state usage
-    const [number, onChangeNumSamples] = React.useState("Enter Num Samples");
+export default function CreateCalibration({navigation, GlobalState}){
+    const {calibrationCurve, 
+           setCalibrationCurve, 
+           calibrationName, 
+           setCalibrationName,
+           numSamples,
+           setNumSamples
+        } = GlobalState
 
     const StartCalibration = () => {
-        navigation.navigate("ConductCalibration");
+        console.log(calibrationName)
+        console.log(numSamples);
+        navigation.navigate("Conduct Calibration");
     }
 
     return(
         <View style= {styles.screen}>
-            <Header/>
             <View style={styles.body}>
+                <Text style= {styles.inputText}>Enter Calibration Name</Text>
                 <TextInput
                     style={styles.input}
-                    onChangeText ={(text) => onChangeCalibrationName(text)}
-                    value = {text}
+                    onChangeText ={(calibrationName) => setCalibrationName(calibrationName)}
+                    value = {calibrationName}
                 />
+                <Text style= {styles.inputText}>Enter Number of Calibration Samples</Text>
                 <TextInput
                     style={styles.input}
-                    onChangeText ={onChangeNumSamples}
-                    value = {number}
+                    onChangeText ={setNumSamples}
+                    value = {numSamples}
                     keyboardType='numeric'
                 />
                 <TouchableOpacity style= {styles.button} onPress= {() => StartCalibration()}>
-                    <Text style= {styles.buttonText}> Start Calibration </Text>
+                    <Text style= {styles.buttonText}> Select Sample Images </Text>
                 </TouchableOpacity>
             </View>
             <Footer navigation = {navigation}/>
@@ -74,7 +82,7 @@ const styles = StyleSheet.create({
     input:{
         padding: 20,
         paddingBottom: 10,
-        paddingTop: 10,
+        paddingTop: 5,
         width: "95%",
         margin: 10,
         marginTop: 30,
@@ -88,6 +96,12 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.23,
         shadowRadius: 2.62,
         elevation: 4,
+    },
+    inputText : {
+        color: "black",
+        fontWeight: "900",
+        paddingLeft: 20,
+        paddingTop: 20
     },
     buttonText:{
         color: "white",

@@ -4,25 +4,27 @@ import { StyleSheet, View, Text, TextInput, TouchableOpacity, FlatList } from 'r
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 
-export default function Home({navigation}) {
+export default function Home({navigation,GlobalState}) {
+    const {CalibrationCurve, setCalibrationCurve} = GlobalState;
+    
+
     
     const NavCalibration = () => {
-        navigation.navigate("CreateCalibration");
+        navigation.navigate("Create Calibration");
     }
 
     const NavAnalysis = () => {
-        navigation.navigate("ConductAnalysis");
+        navigation.navigate("Conduct Analysis");
     }
 
     const NavHistory = () => {
-        navigation.navigate("ViewHistory");
+        navigation.navigate("View History");
     }
 
 
 
     return (
         <View style= {styles.screen}>
-            <Header/>
             <View style= {styles.body}>
                 <TouchableOpacity style= {styles.button} onPress = {() => NavCalibration()}>
                     <Text style ={styles.buttonText}>
