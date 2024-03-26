@@ -4,58 +4,49 @@ import Icon from "react-native-vector-icons/AntDesign";
 import * as ImagePicker from 'expo-image-picker';
 import * as Permissions from 'expo-permissions';
 import * as ImageManipulator from "expo-image-manipulator"
-
-import Header from '../components/Header';
-import Footer from '../components/Footer';
+import { extractRGBData } from '../components/CalibrationCalculations';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-export default function ConductCalibration({navigation, GlobalState}){
-    const {calibrationCurve, 
-        setCalibrationCurve, 
-        calibrationName, 
-        setCalibrationName,
-        numSamples,
+export default function ConductCalibration({navigation, GlobalState}){ // Calibration page/ function call
+    const {calibrationCurve,  // var for storing calibration curve info
+        setCalibrationCurve, // setter function
+        calibrationName,  // stores calibration curve name
+        setCalibrationName, // setter function for calibration curve
+        numSamples, // 
         setNumSamples
-     } = GlobalState;
+     } = GlobalState; // Destructuring global state object
     
-     const [concentration, setSampleConc] = React.useState("");
-     const [images, setImages] = useState([]);
+     const [concentration, setSampleConc] = React.useState(""); // creating state function for sample concentration vals
+     const [images, setImages] = useState([]); // state function for image array
 
-    useEffect(() => {
+    useEffect(() => { // calling get permissions function to request access to user camera roll
         getPermissionAsync();
       }, []);
 
-    const getPermissionAsync = async () => {
+    const getPermissionAsync = async () => { // getting access to camera roll
         const { status } = await Permissions.askAsync(Permissions.MEDIA_LIBRARY);
         if (status !== 'granted') {
           alert('Permission to access camera roll is required!');
         }
       };
 
-     const pickImage = async () => {
-        let result = await ImagePicker.launchImageLibraryAsync({
+
+     const pickImage = async () => { // function for selecting image, and storing image data in state variable
+        
+        let result = await ImagePicker.launchImageLibraryAsync({ // calling choosing function
             mediaTypes: ImagePicker.MediaTypeOptions.Images,
             allowsEditing: true,
             quality: 1,
           });
 
           
-          if (!result.cancelled) {
-              const processedImage = await ImageManipulator.manipulateAsync(
-                result.uri,
-                [],
-                {format: 'png', compress: 1}
-              );
-
-              const {uri, width, height } = processedImage;
-              const rgbVals = await calculateRGB(processedImage);
-
-
-              setImages([...images, { uri: result.assets[0].uri, concentration: concentration, rgb: rgbVals}]);
-              setSampleConc(''); // Reset input for next entry
-              
-            }
-            console.log(images)
+        if (!result.cancelled) { // if image is selected (not cancelled) process the image
+            const RGBavg = await extractRGBData(result.assets[0].uri);
+            setImages([...images, { uri: result.assets[0].uri, concentration: concentration, rgb: RGBavg}]);
+            setSampleConc(''); // Reset input for next entry
+            
+        }
+        console.log(images)
      };
 
 
@@ -104,9 +95,9 @@ const styles = StyleSheet.create({
         justifyContent: "center",
     },
     header: {
-        color: "Black",
+        color: "black",
         width: "100%",
-        fontSize: "20",
+        fontSize: 20,
         fontWeight: "900",
         textAlign: "center",
         padding: 10
