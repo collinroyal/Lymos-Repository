@@ -40,12 +40,16 @@ export default function ConductCalibration({navigation, GlobalState}){ // Calibr
           });
 
           
-        if (!result.cancelled) { // if image is selected (not cancelled) process the image
-            const RGBavg = await extractRGBData(result.assets[0].uri);
-            setImages([...images, { uri: result.assets[0].uri, concentration: concentration, rgb: RGBavg}]);
-            setSampleConc(''); // Reset input for next entry
-            
-        }
+        if (!result.cancelled) {
+            try {
+              //const RGBavg = await extractRGBData(result.assets[0].uri);
+              console.log(RGBavg);
+              setImages([...images, { uri: result.assets[0].uri, concentration: concentration, rgb: 0}]);
+              setSampleConc(''); // Reset input for next entry
+            } catch (error) {
+              console.error("Error processing image:", error);
+            }
+          }
         console.log(images)
      };
 
