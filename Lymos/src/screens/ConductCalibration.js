@@ -41,8 +41,9 @@ export default function ConductCalibration({navigation, GlobalState}){ // Calibr
 
           
         if (!result.cancelled) { // if image is selected (not cancelled) process the image
+            console.log(typeof result.assets[0].uri);
             const RGBavg = await extractRGBData(result.assets[0].uri);
-            setImages([...images, { uri: result.assets[0].uri, concentration: concentration, rgb: RGBavg}]);
+            setImages([...images, { uri: result.assets[0].uri, concentration: concentration, rgb: {}}]);
             setSampleConc(''); // Reset input for next entry
             
         }
