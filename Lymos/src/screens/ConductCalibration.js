@@ -4,8 +4,9 @@ import Icon from "react-native-vector-icons/AntDesign";
 import * as ImagePicker from 'expo-image-picker';
 import * as Permissions from 'expo-permissions';
 import * as ImageManipulator from "expo-image-manipulator"
-import { extractRGBData } from '../components/CalibrationCalculations';
+import { extractRGBData, serverTest } from '../components/CalibrationCalculations';
 import { SafeAreaView } from 'react-native-safe-area-context';
+//import {getColor} from "react-native-image-dominant-color";
 
 export default function ConductCalibration({navigation, GlobalState}){ // Calibration page/ function call
     const {calibrationCurve,  // var for storing calibration curve info
@@ -41,8 +42,11 @@ export default function ConductCalibration({navigation, GlobalState}){ // Calibr
 
           
         if (!result.cancelled) { // if image is selected (not cancelled) process the image
-            const RGBavg = await extractRGBData(result.assets[0].uri);
-            setImages([...images, { uri: result.assets[0].uri, concentration: concentration, rgb: RGBavg}]);
+            console.log(result);
+            console.log(typeof result.assets[0].uri);
+
+            const RGBavg = await serverTest(result.assets[0].uri);
+            setImages([...images, { uri: result.assets[0].uri, concentration: concentration, rgb: {}}]);
             setSampleConc(''); // Reset input for next entry
             
         }
