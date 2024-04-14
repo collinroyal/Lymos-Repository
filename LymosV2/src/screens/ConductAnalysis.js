@@ -3,7 +3,7 @@ import { StyleSheet, View, Text, TextInput, TouchableOpacity, FlatList } from 'r
 import Icon from "react-native-vector-icons/AntDesign";
 import * as ImagePicker from 'expo-image-picker';
 import { uploadImage } from '../components/LymosClient';
-
+import { estimateConc } from '../components/AnalysisCalculations';
 import Footer from '../components/Footer';
 
 export default function ConductAnalysis({navigation, GlobalState }){
@@ -13,26 +13,53 @@ export default function ConductAnalysis({navigation, GlobalState }){
     calibrationName,  // stores calibration curve name
     setCalibrationName, // setter function for calibration curve
     numSamples, // 
-    setNumSamples
+    setNumSamples,
+    Analysis,
+    setToAnalyze,
+    pastAnalysis,
+    setPastAnalysis,
  } = GlobalState; // Destructuring global state object
 
-    const [text, onChangeSampleName] = React.useState("Enter Sample Name..."); // may need to consider global state usage
+    const [text, onChangeSampleName] = React.useState(""); // may need to consider global state usage
     //const [number, onChangeNumSamples] = React.useState("Enter Num Samples");
 
     const ShowResults = () => {
         navigation.navigate("NewResults");
     }
 
+    const handleSample = async () => {
+        console.log("calibration curve" , calibrationCurve);
+        let result = await ImagePicker.launchImageLibraryAsync({ // calling choosing function
+            mediaTypes: ImagePicker.MediaTypeOptions.Images,
+            allowsEditing: true,
+            quality: 1,
+          });
+
+          
+        if (!result.cancelled) { // if image is selected (not cancelled) process the image
+            console.log(result);
+            console.log(typeof result.assets[0].uri);
+
+            const sample = await uploadImage(result.assets[0].uri);
+            console.log("test data (sample):", sample);
+            const concentration = await estimateConc(calibrationCurve,sample);
+            setPastAnalysis(Analysis);
+            setToAnalyze({ uri: result.assets[0].uri, concentration: concentration , rgb: data.averageRGB, CIELAB: data.averageCIELAB});
+            
+        }
+        console.log(Analysis);
+    }
+
     return(
         <View style= {styles.screen}>
             <View style={styles.body}>
                 <TextInput
+                    placeholder='Enter Sample Name ...'
                     style={styles.input}
                     onChangeText ={(text) => onChangeSampleName(text)}
                     value = {text}
                 />
-                <TouchableOpacity style= {styles.button} onPress= {console.log("take a pic")}>
-                    <Icon name = "camera" size = {30} style= {styles.icon}/>
+                <TouchableOpacity style= {styles.button} onPress= {() => handleSample()}>
                     <Text style= {styles.buttonText}> Upload Sample </Text>
                 </TouchableOpacity>
                 <TouchableOpacity style= {styles.button} onPress= {() => ShowResults()}>

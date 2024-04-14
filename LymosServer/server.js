@@ -73,7 +73,7 @@ app.post('/upload-image', (req, res) => {
         fs.mkdirSync(uploadDir);
       }
        */
-      console.log(imageFile[0].originalFilename);
+     // console.log(imageFile[0].originalFilename);
   
       //const fileExtension = path.extname(imageFile[0].originalFilename);
       //const newFilename = `${Date.now()}${fileExtension}`;
@@ -97,8 +97,8 @@ app.post('/upload-image', (req, res) => {
         // Calculate the average RGB values
         const {data} = await image.raw().ensureAlpha().raw().toBuffer({ resolveWithObject: true });
         console.log("check 3");
-        console.log(data);
-        console.log("metadata: ", metadata)
+        //console.log(data);
+        //console.log("metadata: ", metadata)
         const { width, height } = metadata;
         let sumR = 0, sumG = 0, sumB = 0;
         for (let i = 0; i < width * height * 4; i += 4) {
@@ -109,7 +109,7 @@ app.post('/upload-image', (req, res) => {
         const avgR = sumR / (width * height);
         const avgG = sumG / (width * height);
         const avgB = sumB / (width * height);
-        console.log(avgR);
+        //console.log(avgR);
 
         const lab = convert.rgb.lab([avgR,avgG,avgB]);
 
