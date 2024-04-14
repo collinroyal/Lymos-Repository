@@ -1,6 +1,8 @@
 import * as FileSystem from 'expo-file-system';
 import axios from 'axios';
-const url = "http://192.168.86.23:3000";
+
+const url = "http://10.197.32.169:3000";
+//const url = "http://192.168.86.23:3000";
 
 
 
@@ -31,7 +33,7 @@ export const uploadImage = async (imageUri) => {
       console.log("response: ", response.data.averageRGB);
     if (response.request.status === 200) {
       console.log('Image uploaded successfully');
-      return response.data.averageRGB;
+      return response.data;
     } else {
       console.error('Error uploading image');
     }

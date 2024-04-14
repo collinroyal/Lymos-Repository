@@ -6,7 +6,7 @@ import * as Permissions from 'expo-permissions';
 import * as ImageManipulator from "expo-image-manipulator"
 import { extractRGBData, serverTest } from '../components/CalibrationCalculations';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { uploadImage } from '../components/UploadImage';
+import { uploadImage } from '../components/LymosClient';
 //import {getColor} from "react-native-image-dominant-color";
 
 export default function ConductCalibration({navigation, GlobalState}){ // Calibration page/ function call
@@ -17,6 +17,14 @@ export default function ConductCalibration({navigation, GlobalState}){ // Calibr
         numSamples, // 
         setNumSamples
      } = GlobalState; // Destructuring global state object
+
+     const NavHome = () => {
+        navigation.navigate("Home");
+     }
+
+     const NavAnalysis = () => {
+        navigation.navigate("Conduct Analysis");
+     }
     
      const [concentration, setSampleConc] = React.useState(""); // creating state function for sample concentration vals
      const [images, setImages] = useState([]); // state function for image array
@@ -46,13 +54,13 @@ export default function ConductCalibration({navigation, GlobalState}){ // Calibr
             console.log(result);
             console.log(typeof result.assets[0].uri);
 
-            const RGBavg = await uploadImage(result.assets[0].uri);
-            console.log("returned from test:", RGBavg);
-            setImages([...images, { uri: result.assets[0].uri, concentration: concentration, rgb: RGBavg}]);
+            const data = await uploadImage(result.assets[0].uri);
+            console.log("returned from test:", data);
+            setCalibrationCurve([...calibrationCurve, { uri: result.assets[0].uri, concentration: concentration, rgb: data.averageRGB, CIELAB: data.averageCIELAB}]);
             setSampleConc(''); // Reset input for next entry
             
         }
-        console.log(images)
+        console.log(calibrationCurve);
      };
 
 
@@ -60,10 +68,10 @@ export default function ConductCalibration({navigation, GlobalState}){ // Calibr
         <View style= {styles.screen}>
             <Text style={styles.header}>Calibration Curve: {calibrationName} </Text>
             <ScrollView style= {styles.body}>
-                {images.length < parseInt(numSamples, 10) && (
+                {calibrationCurve.length < parseInt(numSamples, 10) && (
                     <>
                 <TextInput
-                    placeholder= {`Enter Sample ${images.length + 1} Concentration`}
+                    placeholder= {`Enter Sample ${calibrationCurve.length + 1} Concentration`}
                     onChangeText={setSampleConc}
                     value={concentration}
                     keyboardType="numeric"
@@ -74,20 +82,27 @@ export default function ConductCalibration({navigation, GlobalState}){ // Calibr
                 </TouchableOpacity>        
                 </>
             )}
-            {images.map((image, index) => (
+            {calibrationCurve.map((calibrationCurve, index) => (
                 <View key = {index} style= {styles.imageContainer}>
-                    <Image source = {{uri: image.uri}} style={styles.image} />
-                    <Text style = {styles.inputText}> Concentration: {image.concentration} </Text>
+                    <Image source = {{uri: calibrationCurve.uri}} style={styles.image} />
+                    <Text style = {styles.inputText}> Concentration: {calibrationCurve.concentration} </Text>
                 </View>
             ))}
             
         </ScrollView>
-        {images.length === parseInt(numSamples, 10) && (
+        {calibrationCurve.length === parseInt(numSamples, 10) && (
+            <View>
                 <TouchableOpacity 
                     style={styles.button} 
-                    onPress={() => console.log("move to computations")}>
-                    <Text style={styles.buttonText}>Proceed to Next Screen</Text>
+                    onPress={() => NavAnalysis()}>
+                    <Text style={styles.buttonText}>Conduct Sample Analysis</Text>
                 </TouchableOpacity>
+                <TouchableOpacity
+                    style={styles.button} 
+                    onPress={() => NavHome()}>
+                    <Text style={styles.buttonText}> Return to Home Screen</Text>
+                </TouchableOpacity>
+            </View>
             )}
         </View>
     )

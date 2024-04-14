@@ -1,11 +1,21 @@
 import React, {useState, useEffect} from 'react';
 import { StyleSheet, View, Text, TextInput, TouchableOpacity, FlatList } from 'react-native';
 import Icon from "react-native-vector-icons/AntDesign";
+import * as ImagePicker from 'expo-image-picker';
+import { uploadImage } from '../components/LymosClient';
 
-import Header from '../components/Header';
 import Footer from '../components/Footer';
 
-export default function ConductAnalysis({navigation}){
+export default function ConductAnalysis({navigation, GlobalState }){
+
+    const {calibrationCurve,  // var for storing calibration curve info
+    setCalibrationCurve, // setter function
+    calibrationName,  // stores calibration curve name
+    setCalibrationName, // setter function for calibration curve
+    numSamples, // 
+    setNumSamples
+ } = GlobalState; // Destructuring global state object
+
     const [text, onChangeSampleName] = React.useState("Enter Sample Name..."); // may need to consider global state usage
     //const [number, onChangeNumSamples] = React.useState("Enter Num Samples");
 
@@ -15,7 +25,6 @@ export default function ConductAnalysis({navigation}){
 
     return(
         <View style= {styles.screen}>
-            <Header/>
             <View style={styles.body}>
                 <TextInput
                     style={styles.input}
@@ -24,7 +33,7 @@ export default function ConductAnalysis({navigation}){
                 />
                 <TouchableOpacity style= {styles.button} onPress= {console.log("take a pic")}>
                     <Icon name = "camera" size = {30} style= {styles.icon}/>
-                    <Text style= {styles.buttonText}> Capture Sample </Text>
+                    <Text style= {styles.buttonText}> Upload Sample </Text>
                 </TouchableOpacity>
                 <TouchableOpacity style= {styles.button} onPress= {() => ShowResults()}>
                     <Text style= {styles.buttonText}> View Results </Text>

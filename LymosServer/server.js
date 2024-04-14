@@ -7,6 +7,7 @@ const path = require('path');
 const fs = require('fs');
 const formidable = require('formidable');
 const sharp = require('sharp');
+const convert = require("color-convert");
 
 
 const MAX_REQUEST_SIZE = '100mb';
@@ -110,10 +111,13 @@ app.post('/upload-image', (req, res) => {
         const avgB = sumB / (width * height);
         console.log(avgR);
 
+        const lab = convert.rgb.lab([avgR,avgG,avgB]);
+
         // Send the response with the average RGB values
         res.json({
             message: 'Image uploaded successfully',
-            averageRGB: { r: avgR, g: avgG, b: avgB }
+            averageRGB: { r: avgR, g: avgG, b: avgB },
+            averageCIELAB: { L: lab[0], a: lab[1], b: lab[2]}
         });
     } catch (error) {
         console.error('Error processing image:', error);
@@ -124,7 +128,6 @@ app.post('/upload-image', (req, res) => {
      
     });
   
-
 
 app.listen(3000, () => {
     console.log('Server is running on port 3000');

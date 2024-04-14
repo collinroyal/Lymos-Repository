@@ -14,7 +14,11 @@ import { EncodingType } from 'expo-file-system';
 const url = "http://192.168.86.23:3000"
 
 
-export const serverTest = async (imageURI) => {
+
+
+
+
+/* export const serverTest = async (imageURI) => {
   //const base64 = await URItoBase64(imageURI);
   try{
     //console.log('Sending base64:', base64);
@@ -34,4 +38,4 @@ export const serverTest = async (imageURI) => {
     console.error("error accessing server", error);
   }
 
-};
+}; */

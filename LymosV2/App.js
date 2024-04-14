@@ -16,7 +16,7 @@ export default function App() {
 
   //global state management
 
-  const [calibrationCurve, setCalibrationCurve] = useState(null); // global state var to hold calibration curve data
+  const [calibrationCurve, setCalibrationCurve] = useState([]); // global state var to hold calibration curve data
   const [calibrationName, setCalibrationName] = React.useState(""); // Global state var to hold calibration curve name
   const [numSamples, setNumSamples] = React.useState(""); // global state var to hold num samples for calibration curve
 
