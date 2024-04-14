@@ -48,7 +48,7 @@ export default function ConductCalibration({navigation, GlobalState}){ // Calibr
 
             const RGBavg = await uploadImage(result.assets[0].uri);
             console.log("returned from test:", RGBavg);
-            setImages([...images, { uri: result.assets[0].uri, concentration: concentration, rgb: {}}]);
+            setImages([...images, { uri: result.assets[0].uri, concentration: concentration, rgb: RGBavg}]);
             setSampleConc(''); // Reset input for next entry
             
         }
