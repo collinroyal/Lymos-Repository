@@ -68,35 +68,20 @@ app.post('/upload-image', (req, res) => {
 
       console.log("image file found");
   
-      //const uploadDir = path.join(__dirname, 'uploads');
-      /* if (!fs.existsSync(uploadDir)) {
-        fs.mkdirSync(uploadDir);
-      }
-       */
-     // console.log(imageFile[0].originalFilename);
-  
-      //const fileExtension = path.extname(imageFile[0].originalFilename);
-      //const newFilename = `${Date.now()}${fileExtension}`;
-      //const filePath = path.join(uploadDir, newFilename);
-     
-      //console.log(imageFile[0].filepath);
-      //console.log(filePath);
+      
       try {
-        // Copy the uploaded image file to the server
-       /*  await fs.promises.copyFile(imageFile[0].filepath, filePath);
-        console.log("fp:",filePath);
- */
+  
         // Read the image using sharp
         const image = sharp(imageFile[0].filepath);
-        console.log("check 1");
+        //console.log("check 1");
 
         // Get the image metadata
         const metadata = await image.metadata();
-        console.log("check 2");
+        //console.log("check 2");
 
         // Calculate the average RGB values
         const {data} = await image.raw().ensureAlpha().raw().toBuffer({ resolveWithObject: true });
-        console.log("check 3");
+        //console.log("check 3");
         //console.log(data);
         //console.log("metadata: ", metadata)
         const { width, height } = metadata;

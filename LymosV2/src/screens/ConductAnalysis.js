@@ -22,13 +22,14 @@ export default function ConductAnalysis({navigation, GlobalState }){
 
     const [text, onChangeSampleName] = React.useState(""); // may need to consider global state usage
     //const [number, onChangeNumSamples] = React.useState("Enter Num Samples");
+    const [sampleData, setSampleData] = useState(null); // State to store sample data
 
     const ShowResults = () => {
         navigation.navigate("NewResults");
     }
 
     const handleSample = async () => {
-        console.log("calibration curve" , calibrationCurve);
+        //console.log("calibration curve" , calibrationCurve);
         let result = await ImagePicker.launchImageLibraryAsync({ // calling choosing function
             mediaTypes: ImagePicker.MediaTypeOptions.Images,
             allowsEditing: true,
@@ -37,18 +38,23 @@ export default function ConductAnalysis({navigation, GlobalState }){
 
           
         if (!result.cancelled) { // if image is selected (not cancelled) process the image
-            console.log(result);
-            console.log(typeof result.assets[0].uri);
+            //console.log(result);
+            //console.log(typeof result.assets[0].uri);
 
             const sample = await uploadImage(result.assets[0].uri);
             console.log("test data (sample):", sample);
             const concentration = await estimateConc(calibrationCurve,sample);
             setPastAnalysis(Analysis);
-            setToAnalyze({ uri: result.assets[0].uri, concentration: concentration , rgb: data.averageRGB, CIELAB: data.averageCIELAB});
-            
+            const sampleInfo = { uri: result.assets[0].uri, name: text, concentration: concentration };
+            setSampleData(sampleInfo);
+            console.log("Sample data:", sampleInfo);
+            setToAnalyze({ uri: result.assets[0].uri, concentration: concentration , rgb: sample.averageRGB, CIELAB: sample.averageCIELAB, name: text});
+            console.log("navigate");
+            navigation.navigate('New Results');
         }
-        console.log(Analysis);
+        //console.log(Analysis);
     }
+    console.log(sampleData)
 
     return(
         <View style= {styles.screen}>
@@ -62,9 +68,8 @@ export default function ConductAnalysis({navigation, GlobalState }){
                 <TouchableOpacity style= {styles.button} onPress= {() => handleSample()}>
                     <Text style= {styles.buttonText}> Upload Sample </Text>
                 </TouchableOpacity>
-                <TouchableOpacity style= {styles.button} onPress= {() => ShowResults()}>
-                    <Text style= {styles.buttonText}> View Results </Text>
-                </TouchableOpacity>
+                
+    
             </View>
             <Footer navigation = {navigation}/>
         </View>
