@@ -1,65 +1,94 @@
 import React, {useState, useEffect} from 'react';
 import { StyleSheet, View, Text, TextInput, TouchableOpacity, FlatList, ScrollView, Image} from 'react-native';
-import Icon from "react-native-vector-icons/AntDesign";
 import * as ImagePicker from 'expo-image-picker';
 import * as Permissions from 'expo-permissions';
-import * as ImageManipulator from "expo-image-manipulator"
-import { SafeAreaView } from 'react-native-safe-area-context';
 import { uploadImage } from '../components/LymosClient';
-//import {getColor} from "react-native-image-dominant-color";
 
-export default function ConductCalibration({navigation, GlobalState}){ // Calibration page/ function call
-    const {calibrationCurve,  // var for storing calibration curve info
-        setCalibrationCurve, // setter function
-        calibrationName,  // stores calibration curve name
-        setCalibrationName, // setter function for calibration curve
-        numSamples, // 
+/**
+ * ConductCalibration component responsible for conducting calibration.
+ * @param {object} props - The props passed to the component.
+ * @param {object} props.navigation - Navigation object for navigating between screens.
+ * @param {object} props.GlobalState - Global state object containing various state variables.
+ * @returns {JSX.Element} Returns the JSX element for conducting calibration.
+ */
+export default function ConductCalibration({navigation, GlobalState}){
+
+    /**
+     * Destructuring global state object to access state variables.
+     */
+    const {calibrationCurve, 
+        setCalibrationCurve, 
+        calibrationName, 
+        setCalibrationName, 
+        numSamples,
         setNumSamples
-     } = GlobalState; // Destructuring global state object
+     } = GlobalState;
 
+
+     /**
+     * Function to navigate to the Home screen.
+     */
      const NavHome = () => {
         navigation.navigate("Home");
      }
 
+     /**
+      * Function to navigate to the Conduct Analysis screen.
+      */
      const NavAnalysis = () => {
         navigation.navigate("Conduct Analysis");
      }
-    
-     const [concentration, setSampleConc] = React.useState(""); // creating state function for sample concentration vals
-     const [images, setImages] = useState([]); // state function for image array
+     
+     /**
+      * State variable to store sample concentration values.
+      */
+     const [concentration, setSampleConc] = React.useState("");
 
-    useEffect(() => { // calling get permissions function to request access to user camera roll
+     /**
+      * State variable to store image array.
+      */
+     const [images, setImages] = useState([]);
+    
+     /**
+     * useEffect hook to request permission to access the camera roll.
+     */
+    useEffect(() => { 
         getPermissionAsync();
       }, []);
 
-    const getPermissionAsync = async () => { // getting access to camera roll
+    /**
+     * Function to request permission to access the camera roll.
+     */
+    const getPermissionAsync = async () => { 
         const { status } = await Permissions.askAsync(Permissions.MEDIA_LIBRARY);
         if (status !== 'granted') {
           alert('Permission to access camera roll is required!');
         }
       };
 
-
-     const pickImage = async () => { // function for selecting image, and storing image data in state variable
+    /**
+      * Function to select an image and store its data in the state variable.
+      */
+    const pickImage = async () => {
         
-        let result = await ImagePicker.launchImageLibraryAsync({ // calling choosing function
+        let result = await ImagePicker.launchImageLibraryAsync({
             mediaTypes: ImagePicker.MediaTypeOptions.Images,
             allowsEditing: true,
             quality: 1,
           });
 
           
-        if (!result.cancelled) { // if image is selected (not cancelled) process the image
+        if (!result.cancelled) {
             //console.log(result);
             //console.log(typeof result.assets[0].uri);
 
             const data = await uploadImage(result.assets[0].uri);
             //console.log("returned from test:", data);
             setCalibrationCurve([...calibrationCurve, { uri: result.assets[0].uri, concentration: concentration, rgb: data.averageRGB, CIELAB: data.averageCIELAB}]);
-            setSampleConc(''); // Reset input for next entry
+            setSampleConc('');
             
         }
-        console.log(calibrationCurve);
+        //console.log(calibrationCurve);
      };
 
 

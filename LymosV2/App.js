@@ -9,18 +9,29 @@ import ConductAnalysis from "./src/screens/ConductAnalysis";
 import CreateCalibration from "./src/screens/CreateCalibration";
 import ConductCalibration from "./src/screens/ConductCalibration.js";
 import NewResults from "./src/screens/NewResults";
-import ViewHistory from "./src/screens/ViewHistory";
+
 
 const Stack = createNativeStackNavigator()
+
+/**
+ * App component for the application.
+ * @returns {JSX.Element} Returns the JSX element for the entire application.
+ */
+
 export default function App() {
 
-  //global state management
+  /**
+   * Global state management for the application.
+   */
 
-  const [calibrationCurve, setCalibrationCurve] = useState([]); // global state var to hold calibration curve data
-  const [calibrationName, setCalibrationName] = React.useState(""); // Global state var to hold calibration curve name
-  const [numSamples, setNumSamples] = React.useState(""); // global state var to hold num samples for calibration curve
-  const [Analysis, setToAnalyze] = React.useState({});
-  const [pastAnalysis, setPastAnalysis] = React.useState()
+  const [calibrationCurve, setCalibrationCurve] = useState([]); // Holds calibration curve data
+  const [calibrationName, setCalibrationName] = React.useState(""); // Holds calibration curve name
+  const [numSamples, setNumSamples] = React.useState(""); // Holds number of samples for calibration curve
+  const [Analysis, setToAnalyze] = React.useState({}); // Holds analysis data
+  const [pastAnalysis, setPastAnalysis] = React.useState(); // Holds past analysis data
+  
+  
+  // Global state object to be passed as props
   const GlobalState = {
     calibrationCurve, setCalibrationCurve,
     calibrationName, setCalibrationName,
@@ -33,29 +44,31 @@ export default function App() {
     <NavigationContainer>
       <Stack.Navigator>
 
+        {/* Home screen */}
         <Stack.Screen name = "Home" options = {{headerShown: true}}>
           {props => <Home navigation ={props.navigation} GlobalState={GlobalState} />}
         </Stack.Screen>
 
+        {/* Conduct Analysis screen */}
         <Stack.Screen name = "Conduct Analysis" options = {{headerShown: true}}>
           {props => <ConductAnalysis navigation ={props.navigation} GlobalState={GlobalState}/>}
         </Stack.Screen>
 
+        {/* Conduct Calibration screen */}
         <Stack.Screen name = "Conduct Calibration" options = {{headerShown: true}}>
           {props => <ConductCalibration navigation ={props.navigation} GlobalState={GlobalState}/>}
         </Stack.Screen>
 
+        {/* Create Calibration screen */}
         <Stack.Screen name = "Create Calibration" options = {{headerShown: true}}>
           {props => <CreateCalibration navigation ={props.navigation} GlobalState={GlobalState}/>}
         </Stack.Screen>
 
+        {/* New Results screen */}
         <Stack.Screen name = "New Results" options = {{headerShown: true}}>
           {props => <NewResults navigation ={props.navigation} GlobalState={GlobalState}/>}
         </Stack.Screen>
 
-        <Stack.Screen name = "View History" options = {{headerShown: true}}>
-          {props => <ViewHistory navigation ={props.navigation} GlobalState={GlobalState}/>}
-        </Stack.Screen>
       </Stack.Navigator>
     </NavigationContainer>
   );

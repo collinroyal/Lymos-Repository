@@ -1,23 +1,32 @@
 import React, {useState, useEffect} from 'react';
 import { StyleSheet, View, Text, TextInput, TouchableOpacity, FlatList, Image } from 'react-native';
 
-import Icon from "react-native-vector-icons/AntDesign";
-
-import Header from '../components/Header';
-import Footer from '../components/Footer';
-
+/**
+ * NewResults component responsible for displaying new analysis results.
+ * @param {object} props - The props passed to the component.
+ * @param {object} props.GlobalState - Global state object containing various state variables.
+ * @param {object} props.navigation - Navigation object for navigating between screens.
+ * @returns {JSX.Element} Returns the JSX element for displaying new analysis results.
+ */
 export default function NewResults({GlobalState, navigation}){
-    const {calibrationCurve,  // var for storing calibration curve info
-    setCalibrationCurve, // setter function
-    calibrationName,  // stores calibration curve name
-    setCalibrationName, // setter function for calibration curve
-    numSamples, // 
+    /**
+     * Destructuring global state object to access state variables.
+     */
+    const {calibrationCurve,
+    setCalibrationCurve,
+    calibrationName, 
+    setCalibrationName, 
+    numSamples, 
     setNumSamples,
     Analysis,
     setToAnalyze,
     pastAnalysis,
     setPastAnalysis,
  } = GlobalState;
+
+    /**
+     * Destructuring Analysis object to access its properties.
+     */
     const { uri, name, concentration } = Analysis;
 
     return (

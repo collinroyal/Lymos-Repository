@@ -1,7 +1,15 @@
+/**
+ * Module dependencies.
+ */
 const jimp = require("jimp");
 const fs = require('fs');
 const path = require('path');
 
+/**
+ * Converts a file URI to a base64 string.
+ * @param {string} uri - The file URI.
+ * @returns {Promise<string>} Returns a Promise that resolves to a base64 string.
+ */
 const URItoBase64 = async (uri) =>{
     const filePath = path.join(__dirname, uri);
     const fileBuffer = fs.readFileSync(filePath);
@@ -9,7 +17,12 @@ const URItoBase64 = async (uri) =>{
     return base64String;
 }
 
-
+/**
+ * Calculates the average RGB values of an image.
+ * @param {string} URI - The URI of the image file.
+ * @returns {Promise<object>} Returns a Promise that resolves to an object containing the average RGB values.
+ * @throws {Error} Throws an error if base64ImageData is not provided or if there is an error processing the image.
+ */
 const calcAVGRGB = async (URI) => {
     const base64ImageData = await URItoBase64(URI);
     try {
@@ -29,7 +42,6 @@ const calcAVGRGB = async (URI) => {
       throw error;
     }
   };
-  
 
 module.exports = {
     calcAVGRGB,
