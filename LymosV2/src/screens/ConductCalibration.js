@@ -4,7 +4,6 @@ import Icon from "react-native-vector-icons/AntDesign";
 import * as ImagePicker from 'expo-image-picker';
 import * as Permissions from 'expo-permissions';
 import * as ImageManipulator from "expo-image-manipulator"
-import { extractRGBData, serverTest } from '../components/CalibrationCalculations';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { uploadImage } from '../components/LymosClient';
 //import {getColor} from "react-native-image-dominant-color";
@@ -51,11 +50,11 @@ export default function ConductCalibration({navigation, GlobalState}){ // Calibr
 
           
         if (!result.cancelled) { // if image is selected (not cancelled) process the image
-            console.log(result);
-            console.log(typeof result.assets[0].uri);
+            //console.log(result);
+            //console.log(typeof result.assets[0].uri);
 
             const data = await uploadImage(result.assets[0].uri);
-            console.log("returned from test:", data);
+            //console.log("returned from test:", data);
             setCalibrationCurve([...calibrationCurve, { uri: result.assets[0].uri, concentration: concentration, rgb: data.averageRGB, CIELAB: data.averageCIELAB}]);
             setSampleConc(''); // Reset input for next entry
             

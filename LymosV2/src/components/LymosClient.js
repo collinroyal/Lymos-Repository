@@ -1,8 +1,8 @@
 import * as FileSystem from 'expo-file-system';
 import axios from 'axios';
 
-const url = "http://10.197.32.169:3000";
-//const url = "http://192.168.86.23:3000";
+//const url = "http://10.197.32.169:3000";
+const url = "http://192.168.86.23:3000";
 
 
 
@@ -16,7 +16,7 @@ export const uploadImage = async (imageUri) => {
     });
 
     const formData = new FormData();
-    console.log("info:" , fileInfo);
+    //console.log("info:" , fileInfo);
     formData.append('image', {
         uri: imageUri,
         name: filename,
@@ -30,7 +30,7 @@ export const uploadImage = async (imageUri) => {
           'Content-Type': 'multipart/form-data',
         },
       });
-      console.log("response: ", response.data.averageRGB);
+      //console.log("response: ", response.data.averageRGB);
     if (response.request.status === 200) {
       console.log('Image uploaded successfully');
       return response.data;
@@ -41,6 +41,7 @@ export const uploadImage = async (imageUri) => {
     console.error('Error uploading image:', error);
   }
 };
+
 
 
 
