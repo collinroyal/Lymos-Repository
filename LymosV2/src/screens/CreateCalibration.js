@@ -3,7 +3,17 @@ import { StyleSheet, View, Text, TextInput, TouchableOpacity, FlatList } from 'r
 
 import Footer from '../components/Footer';
 
+/**
+ * CreateCalibration component responsible for creating a new calibration.
+ * @param {object} props - The props passed to the component.
+ * @param {object} props.navigation - Navigation object for navigating between screens.
+ * @param {object} props.GlobalState - Global state object containing various state variables.
+ * @returns {JSX.Element} Returns the JSX element for creating a new calibration.
+ */
 export default function CreateCalibration({navigation, GlobalState}){
+    /**
+     * Destructuring global state object to access state variables.
+     */
     const {calibrationCurve, 
            setCalibrationCurve, 
            calibrationName, 
@@ -11,7 +21,10 @@ export default function CreateCalibration({navigation, GlobalState}){
            numSamples,
            setNumSamples
         } = GlobalState
-
+    
+    /**
+     * Function to start the calibration process and navigate to the Conduct Calibration screen.
+     */
     const StartCalibration = () => {
         console.log(calibrationName)
         console.log(numSamples);

@@ -1,27 +1,30 @@
 import React, {useState, useEffect} from 'react';
 import { StyleSheet, View, Text, TextInput, TouchableOpacity, FlatList } from 'react-native';
-
-import Header from '../components/Header';
 import Footer from '../components/Footer';
 
+/**
+ * Home component responsible for displaying the home screen.
+ * @param {object} props - The props passed to the component.
+ * @param {object} props.navigation - Navigation object for navigating between screens.
+ * @param {object} props.GlobalState - Global state object containing various state variables.
+ * @returns {JSX.Element} Returns the JSX element for the home screen.
+ */
 export default function Home({navigation,GlobalState}) {
-    const {CalibrationCurve, setCalibrationCurve} = GlobalState;
-    
-
-    
+    /**
+     * Function to navigate to the Create Calibration screen.
+     */
     const NavCalibration = () => {
         navigation.navigate("Create Calibration");
     }
 
+    /**
+     * Function to navigate to the Conduct Analysis screen.
+     */
     const NavAnalysis = () => {
         navigation.navigate("Conduct Analysis");
     }
 
-    const NavHistory = () => {
-        navigation.navigate("View History");
-    }
-
-
+    
 
     return (
         <View style= {styles.screen}>
@@ -34,11 +37,6 @@ export default function Home({navigation,GlobalState}) {
                 <TouchableOpacity style= {styles.button} onPress = {() => NavAnalysis()}>
                     <Text style ={styles.buttonText}>
                         Perform Analysis
-                    </Text>
-                </TouchableOpacity>
-                <TouchableOpacity style= {styles.button} onPress = {() => NavHistory()}>
-                    <Text style ={styles.buttonText}>
-                        Review Past Samples
                     </Text>
                 </TouchableOpacity>
             </View>

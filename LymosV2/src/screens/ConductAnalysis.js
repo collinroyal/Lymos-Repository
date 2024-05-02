@@ -6,55 +6,57 @@ import { uploadImage } from '../components/LymosClient';
 import { estimateConc } from '../components/AnalysisCalculations';
 import Footer from '../components/Footer';
 
+/**
+ * ConductAnalysis component responsible for conducting analysis.
+ * @param {object} props - The props passed to the component.
+ * @param {object} props.navigation - Navigation object for navigating between screens.
+ * @param {object} props.GlobalState - Global state object containing various state variables.
+ * @returns {JSX.Element} Returns the JSX element for conducting analysis.
+ */
 export default function ConductAnalysis({navigation, GlobalState }){
 
-    const {calibrationCurve,  // var for storing calibration curve info
-    setCalibrationCurve, // setter function
-    calibrationName,  // stores calibration curve name
-    setCalibrationName, // setter function for calibration curve
-    numSamples, // 
+    const {calibrationCurve, 
+    setCalibrationCurve,
+    calibrationName, 
+    setCalibrationName, 
+    numSamples, 
     setNumSamples,
     Analysis,
     setToAnalyze,
     pastAnalysis,
     setPastAnalysis,
- } = GlobalState; // Destructuring global state object
+ } = GlobalState; 
 
-    const [text, onChangeSampleName] = React.useState(""); // may need to consider global state usage
-    //const [number, onChangeNumSamples] = React.useState("Enter Num Samples");
-    const [sampleData, setSampleData] = useState(null); // State to store sample data
+    /**
+     * State variable to store sample data.
+     */
+    const [text, onChangeSampleName] = React.useState(""); 
+    const [sampleData, setSampleData] = useState(null); 
 
-    const ShowResults = () => {
-        navigation.navigate("NewResults");
-    }
-
+    /**
+     * Function to handle the sample upload process.
+     */
     const handleSample = async () => {
-        //console.log("calibration curve" , calibrationCurve);
-        let result = await ImagePicker.launchImageLibraryAsync({ // calling choosing function
+        let result = await ImagePicker.launchImageLibraryAsync({ 
             mediaTypes: ImagePicker.MediaTypeOptions.Images,
             allowsEditing: true,
             quality: 1,
           });
 
           
-        if (!result.cancelled) { // if image is selected (not cancelled) process the image
-            //console.log(result);
-            //console.log(typeof result.assets[0].uri);
-
+        if (!result.cancelled) { 
             const sample = await uploadImage(result.assets[0].uri);
-            console.log("test data (sample):", sample);
+            //console.log("test data (sample):", sample);
             const concentration = await estimateConc(calibrationCurve,sample);
             setPastAnalysis(Analysis);
             const sampleInfo = { uri: result.assets[0].uri, name: text, concentration: concentration };
             setSampleData(sampleInfo);
-            console.log("Sample data:", sampleInfo);
+            //console.log("Sample data:", sampleInfo);
             setToAnalyze({ uri: result.assets[0].uri, concentration: concentration , rgb: sample.averageRGB, CIELAB: sample.averageCIELAB, name: text});
-            console.log("navigate");
             navigation.navigate('New Results');
         }
-        //console.log(Analysis);
     }
-    console.log(sampleData)
+    //console.log(sampleData)
 
     return(
         <View style= {styles.screen}>
